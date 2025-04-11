@@ -1,5 +1,6 @@
 package test1.demo1.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -10,20 +11,17 @@ import test1.demo1.service.CustomerService;
 
 @Controller
 @RequestMapping("/customers")
+@RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    // Constructor injection
-    @Autowired
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @GetMapping("")
     public String viewCustomers(Model model) {
+
         model.addAttribute("customers", customerService.getAllCustomers());
-        return "customers"; // Assuming you have a Thymeleaf template named 'customers.html'
+        return "customers";
     }
 
 }
