@@ -1,44 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Customer List</title>
-<!--    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>-->
     <style>
-        table{
-            bordder-collape: collape;
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
-    <main class="container mx-auto">
-        <h2>Customer List</h2>
-        <table border="1" class="bg-redd-300">
-            <thead>
-            <tr     >
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Salary</th>
-                <th>DOB</th>
-                <th>Gender</th>
-                <th>Mobile</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="c : ${customers}">
-                <td th:text="${c.id}"></td>
-                <td th:text="${c.firstName}"></td>
-                <td th:text="${c.lastName}"></td>
-                <td th:text="${c.salary}"></td>
-                <td th:text="${#dates.format(c.dob, 'yyyy-MM-dd')}"></td>
-                <td th:text="${c.gender}"></td>
-                <td th:text="${c.mobilePhone}"></td>
-            </tr>
-            <tr th:if="${customers.empty}">
-                <td colspan="7">No customers found.</td>
-            </tr>
-            </tbody>
-    </main>
+
+<h2>All Customers</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Salary</th>
+        <th>Date of Birth</th>
+        <th>Gender</th>
+        <th>Mobile Phone</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.id}">ID</td>
+        <td th:text="${customer.firstName}">First Name</td>
+        <td th:text="${customer.lastName}">Last Name</td>
+        <td th:text="${customer.salary}">Salary</td>
+        <td th:text="${#dates.format(customer.dob, 'yyyy-MM-dd')}">DOB</td>
+        <td th:text="${customer.gender}">Gender</td>
+        <td th:text="${customer.mobilePhone}">Phone</td>
+    </tr>
+    </tbody>
 </table>
+
 </body>
 </html>

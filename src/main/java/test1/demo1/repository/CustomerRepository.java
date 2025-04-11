@@ -1,30 +1,37 @@
-package test1.demo1.init;
+package test1.demo1.repository;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.apachecommons.CommonsLog;
+import oracle.jdbc.OracleTypes;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import test1.demo1.model.Customer;
-import test1.demo1.service.CustomerServiceImpl;
 
-import javax.annotation.PostConstruct;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
+@Repository
 @RequiredArgsConstructor
-@Component
-public class CustomerInit {
+public class CustomerRepository {
+
     private final JdbcTemplate jdbcTemplate;
     private SimpleJdbcCall simpleJdbcCall;
 
     @PostConstruct
     private void init() {
-
         this.simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("GET_ALL_CUSTOMERS")
-                .returningResultSet("p_cursor", new CustomerInit.CustomerRowMapper());
+                .returningResultSet("DATAOUTPUT", new CustomerRowMapper());
+    }
+
+    public List<Customer> getAllCustomers() {
+        Map<String, Object> result = simpleJdbcCall.execute();
+        return (List<Customer>) result.get("DATAOUTPUT");
     }
 
     private static class CustomerRowMapper implements RowMapper<Customer> {
